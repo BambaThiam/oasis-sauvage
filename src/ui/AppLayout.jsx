@@ -3,6 +3,8 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
 
+
+
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-columns: 26rem 1fr;
@@ -24,6 +26,7 @@ function AppLayout() {
         <Outlet />
       </Main>
     </StyledAppLayout>
+
   );
 }
 
