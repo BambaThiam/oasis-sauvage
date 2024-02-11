@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import {formatCurrency} from "../../utils/helpers";
+
 
 const TableRow = styled.div`
   display: grid;
@@ -38,3 +40,24 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+
+//eslint-disable-next-line 
+function CabinRow({ cabin }) {
+
+  //eslint-disable-next-line
+  const { name, image, maxCapacity, regularPrice, discount } = cabin
+
+  return (
+    <TableRow role="row">
+      <Img src={image} alt={name} />
+      <Cabin>{name}</Cabin>
+      <div>Fits up to {maxCapacity} guests</div> 
+      <Price>{formatCurrency(regularPrice)}</Price>
+      {/* <Price>{regularPrice - (regularPrice * (discount / 100))}€</Price> */}
+      <Discount>{discount}%</Discount>
+      
+    </TableRow>
+  );
+}
+
+export default CabinRow

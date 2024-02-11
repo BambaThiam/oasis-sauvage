@@ -1,7 +1,7 @@
 import { supabase } from "./supabase";
 
 export async function getCabins() {
-    const { data: cabins, error } = await supabase
+    const { data, error } = await supabase
         .from("cabins")
         .select("*")
         .order("name", { ascending: true });
@@ -10,5 +10,5 @@ export async function getCabins() {
             console.error(error);
             throw new Error("Cabins not found");
         }
-        return cabins
+        return data
 }
