@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import {formatCurrency} from "../../utils/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCabins } from "../../services/apiCabins";
 
 
 const TableRow = styled.div`
@@ -45,7 +47,21 @@ const Discount = styled.div`
 function CabinRow({ cabin }) {
 
   //eslint-disable-next-line
-  const { name, image, maxCapacity, regularPrice, discount } = cabin
+  const {id:cabinID, name, image, maxCapacity, regularPrice, discount } = cabin
+
+  const queryClient = useQueryClient(); //permet d'acceder au client (pour la mise a jour du cache par ex.)
+  
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: (id) => deleteCabins(id),
+  
+    onSuccess: () => {
+      alert("Cabin deleted")
+      queryClient.invalidateQueries({ queryKey: ["cabins"] }) // si ça réussi, on actualise le cache
+    },
+    onError: (error) => {
+      alert(error.message)
+    }
+  })
 
   return (
     <TableRow role="row">
@@ -53,8 +69,8 @@ function CabinRow({ cabin }) {
       <Cabin>{name}</Cabin>
       <div>Fits up to {maxCapacity} guests</div> 
       <Price>{formatCurrency(regularPrice)}</Price>
-      {/* <Price>{regularPrice - (regularPrice * (discount / 100))}€</Price> */}
       <Discount>{formatCurrency(discount)}</Discount>
+      <button onClick={() => mutate(cabinID)} disabled={isDeleting}>Delete</button>
       
     </TableRow>
   );
