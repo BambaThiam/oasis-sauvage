@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import {formatCurrency} from "../../utils/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCabins } from "../../services/apiCabins";
+import { toast } from "react-hot-toast";
+
 
 const TableRow = styled.div`
   display: grid;
@@ -38,3 +43,38 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+
+//eslint-disable-next-line 
+function CabinRow({ cabin }) {
+
+  //eslint-disable-next-line
+  const {id:cabinID, name, image, maxCapacity, regularPrice, discount } = cabin
+
+  const queryClient = useQueryClient(); //permet d'acceder au client (pour la mise a jour du cache par ex.)
+  
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: (id) => deleteCabins(id),
+  
+    onSuccess: () => {
+      toast.success("Cabin deleted")
+      queryClient.invalidateQueries({ queryKey: ["cabins"] }) // si ça réussi, on actualise le cache
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+  })
+
+  return (
+    <TableRow role="row">
+      <Img src={image} alt={name} />
+      <Cabin>{name}</Cabin>
+      <div>Fits up to {maxCapacity} guests</div> 
+      <Price>{formatCurrency(regularPrice)}</Price>
+      <Discount>{formatCurrency(discount)}</Discount>
+      <button onClick={() => mutate(cabinID)} disabled={isDeleting}>Delete</button>
+      
+    </TableRow>
+  );
+}
+
+export default CabinRow
