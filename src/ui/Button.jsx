@@ -1,6 +1,4 @@
-
 import styled, { css } from "styled-components";
-
 
 const sizes = {
   small: css`
@@ -21,7 +19,6 @@ const sizes = {
     font-weight: 500;
   `,
 };
-
 
 const variations = {
   primary: css`

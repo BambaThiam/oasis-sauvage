@@ -46,9 +46,12 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
+// eslint-disable-next-line
 function FormRow({ label, error, children, orientation }) {
   return (
+    // eslint-disable-next-line
     <StyledFormRow orientation={orientation}>
+      {/* eslint-disable-next-line */}
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
       {error && <Error>{error}</Error>}
