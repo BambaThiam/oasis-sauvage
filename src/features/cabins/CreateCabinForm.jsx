@@ -18,6 +18,7 @@ function CreateCabinForm() {
   const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
 
+  //eslint-disable-next-line
   const { isLoading: isCreating, mutate } = useMutation({
     mutationFn: (newCabin) => {
       createCabin(newCabin);
@@ -33,7 +34,8 @@ function CreateCabinForm() {
   });
 
   function onSubmit(data) {
-    mutate(data);
+    // console.log(data);
+    mutate({...data, image:data.image[0]});
   }
 
   //eslint-disable-next-line
@@ -119,6 +121,7 @@ function CreateCabinForm() {
         <FileInput
           id="image"
           accept="image/*"
+          // type="file" // pas necessaire car déja considéré dans le FileInput
           {...register("image", {
             required: "This field is required",
           })}
