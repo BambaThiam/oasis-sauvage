@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
+// import { useMutation, useQueryClient } from "@tanstack/react-query";
+// import { toast } from "react-hot-toast";
 
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
@@ -9,7 +9,9 @@ import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 
 import { useForm } from "react-hook-form";
-import { createEditCabin } from "../../services/apiCabins";
+// import { createEditCabin } from "../../services/apiCabins";
+import useCreateCabin from "./useCreateCabin";
+import useEditCabin from "./useEditCabin";
 
 //eslint-disable-next-line
 function CreateCabinForm({cabinToEdit = {}}) {
@@ -23,37 +25,41 @@ function CreateCabinForm({cabinToEdit = {}}) {
     }
     );
   const { errors } = formState;
+
+  const {createCabin, isCreating} = useCreateCabin();
+
+  const {editCabin, isEditing } = useEditCabin();
     
-  const queryClient = useQueryClient(); //permet d'acceder au client (pour la mise a jour du cache par ex.)
-  //eslint-disable-next-line
-  const {mutate: createCabin, isLoading: isCreating } = useMutation({
-    mutationFn: (newCabin) => {
-      createEditCabin(newCabin);
-    },
+  // const queryClient = useQueryClient(); //permet d'acceder au client (pour la mise a jour du cache par ex.)
+  // //eslint-disable-next-line
+  // const {mutate: createCabin, isLoading: isCreating } = useMutation({
+  //   mutationFn: (newCabin) => {
+  //     createEditCabin(newCabin);
+  //   },
 
-    onSuccess: () => {
-      toast.success("Cabin created");
-      queryClient.invalidateQueries({ queryKey: ["cabins"] }); // si cela disparait, on actualise le cache
-      reset();
-    },
+  //   onSuccess: () => {
+  //     toast.success("Cabin created");
+  //     queryClient.invalidateQueries({ queryKey: ["cabins"] }); // si cela disparait, on actualise le cache
+  //     reset();
+  //   },
 
-    onError: () => toast.error("Cabin not created"),
-  });
+  //   onError: () => toast.error("Cabin not created"),
+  // });
 
 
-  const {mutate: editCabin, isLoading: isEditing } = useMutation({
-    mutationFn: ({newCabinData, id}) => {
-      createEditCabin(newCabinData, id);
-    },
+  // const {mutate: editCabin, isLoading: isEditing } = useMutation({
+  //   mutationFn: ({newCabinData, id}) => {
+  //     createEditCabin(newCabinData, id);
+  //   },
 
-    onSuccess: () => {
-      toast.success("Cabin successfully edited");
-      queryClient.invalidateQueries({ queryKey: ["cabins"] }); // si cela disparait, on actualise le cache
-      reset();
-    },
+  //   onSuccess: () => {
+  //     toast.success("Cabin successfully edited");
+  //     queryClient.invalidateQueries({ queryKey: ["cabins"] }); // si cela disparait, on actualise le cache
+  //     reset();
+  //   },
 
-    onError: () => toast.error("Cabin not created"),
-  });
+  //   onError: () => toast.error("Cabin not created"),
+  // });
 
   const isWorking = isCreating || isEditing;
 
@@ -62,18 +68,18 @@ function CreateCabinForm({cabinToEdit = {}}) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
     if (isEditSession) {
       editCabin({newCabinData:{...data, image}, id:editId},
-        // {
-        //   //eslint-disable-next-line
-        //   onSuccess: (data) => reset(),
-        // }
+        {
+          //eslint-disable-next-line
+          onSuccess: (data) => reset(),
+        }
         );
     }
     else 
     createCabin({...data, image:image},
-      // {
-      //   //eslint-disable-next-line
-      //   onSuccess: (data) => reset(),
-      // }
+      {
+        //eslint-disable-next-line
+        onSuccess: (data) => reset(),
+      }
       );
   }
 
@@ -142,7 +148,6 @@ function CreateCabinForm({cabinToEdit = {}}) {
 
       <FormRow
         label="Description for website"
-        disabled={isWorking}
         error={errors?.description?.message}
       >
         <Textarea
