@@ -3,8 +3,6 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
 
-
-
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-columns: 26rem 1fr;
@@ -15,6 +13,7 @@ const StyledAppLayout = styled.div`
 const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 4rem 4.8rem 6.4rem;
+  overflow: scroll;
 `;
 
 const Container = styled.div`
@@ -36,7 +35,6 @@ function AppLayout() {
         </Container>
       </Main>
     </StyledAppLayout>
-
   );
 }
 
