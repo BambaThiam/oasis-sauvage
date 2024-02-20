@@ -2,12 +2,12 @@
 import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm";
 import Modal from "../../ui/Modal";
-import CabinTable from "./CabinTable";
+// import CabinTable from "./CabinTable";
 
 
 const AddCabin = () => {
   return (
-    // <div>
+    <div>
       <Modal>
       {/* The part of the modal that handles opening it */}
       <Modal.Open opens="cabin-form">
@@ -20,14 +20,14 @@ const AddCabin = () => {
         <CreateCabinForm />
       </Modal.Window>
 
-      <Modal.Open opens="table">
+      {/* <Modal.Open opens="table">
         <Button>Show table</Button>
       </Modal.Open>
       <Modal.Window name="table">
         <CabinTable />
-      </Modal.Window>
+      </Modal.Window> */}
     </Modal>
-    // </div>
+    </div>
   )
 }
 
