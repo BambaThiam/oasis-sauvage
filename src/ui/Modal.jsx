@@ -1,6 +1,16 @@
+// import { useState } from "react";
+// import { cloneElement } from "react";
+// import { useContext } from "react";
+// import { createContext } from "react";
+// import { createPortal } from "react-dom";
+// import { HiXMark } from "react-icons/hi2";
+// import styled from "styled-components";
+
+import { cloneElement, createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
+// import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -51,21 +61,113 @@ const Button = styled.button`
   }
 `;
 
+// //Compound Component Pattern
+// //1- Etape 1 : Créer le context
+// const ModalContext = createContext();
+
+// //2- Etape 2 : Créer le composant parent avec le provider
+// // eslint-disable-next-line
+// const Modal = ({children}) => {
+//   const [openName, setOpenName] = useState("");
+
+//   const close = () => setOpenName("");
+//   const open = () => setOpenName;
+
+//   return (
+//     <ModalContext.Provider value={{openName, close, open}}>
+//       {children}
+//     </ModalContext.Provider>
+//   )
+//   }
+
+// const Open = ({children, opens: opensWindowName}) => {
+//   const {open} = useContext(ModalContext);
+//   return cloneElement(children, {onClick: () => -open(opensWindowName)})
+// }
+
+// // 3. Create child components
+// // eslint-disable-next-line
+// const Window = ({children,name}) => {
+//   const {openName, close} = useContext(ModalContext)
+
+//   if(name !== openName) return null
+
+//   return createPortal (
+//     <Overlay>
+//     <StyledModal>
+//       <Button onClick={close}>
+//         <HiXMark/>
+//       </Button>
+//       <div>{cloneElement(children, { onCloseModal: close })}</div>
+//     </StyledModal>
+//     </Overlay>,
+//     document.body
+//   )
+// }
+// // const Modal = ({children, onClose}) => {
+// //   return createPortal (
+// //     <Overlay>
+// //     <StyledModal>
+// //       <Button onClick={onClose}>
+// //         <HiXMark/>
+// //       </Button>
+// //       <div>{children}</div>
+// //     </StyledModal>
+// //     </Overlay>,
+// //     document.body
+// //   )
+// // }
+
+// Modal.Open = Open
+// Modal.Window = Window
+
+// export default Modal
 
 
-// eslint-disable-next-line
-const Modal = ({children, onClose}) => {
-  return createPortal (
-    <Overlay>
-    <StyledModal>
-      <Button onClick={onClose}>
-        <HiXMark/>
-      </Button>
-      <div>{children}</div>
-    </StyledModal>
-    </Overlay>,
-    document.body
-  )
+const ModalContext = createContext();
+
+//eslint-disable-next-line
+function Modal({ children }) {
+  const [openName, setOpenName] = useState("");
+
+  const close = () => setOpenName("");
+  const open = setOpenName;
+
+  return (
+    <ModalContext.Provider value={{ openName, close, open }}>
+      {children}
+    </ModalContext.Provider>
+  );
 }
 
-export default Modal
+function Open({ children, opens: opensWindowName }) {
+  const { open } = useContext(ModalContext);
+
+  return cloneElement(children, { onClick: () => open(opensWindowName) });
+}
+
+//eslint-disable-next-line
+function Window({ children, name }) {
+  const { openName, close } = useContext(ModalContext);
+  // const ref = useOutsideClick(close);
+
+  if (name !== openName) return null;
+
+  return createPortal(
+    <Overlay>
+      <StyledModal>
+        <Button onClick={close}>
+          <HiXMark />
+        </Button>
+
+        <div>{cloneElement(children, { onCloseModal: close })}</div>
+      </StyledModal>
+    </Overlay>,
+    document.body
+  );
+}
+
+Modal.Open = Open;
+Modal.Window = Window;
+
+export default Modal;
