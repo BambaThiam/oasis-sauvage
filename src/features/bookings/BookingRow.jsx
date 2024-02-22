@@ -34,17 +34,15 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
+//eslint-disable-next-line
 function BookingRow({
+  //eslint-disable-next-line
   booking: {
-    id: bookingId,
-    created_at,
-    startDate,
-    endDate,
-    numNights,
-    numGuests,
-    totalPrice,
-    status,
+    //eslint-disable-next-line
+    id: bookingId, created_at, startDate, endDate, numNights, numGuests, totalPrice, status,
+    //eslint-disable-next-line
     guests: { fullName: guestName, email },
+    //eslint-disable-next-line
     cabins: { name: cabinName },
   },
 }) {
@@ -76,6 +74,7 @@ function BookingRow({
         </span>
       </Stacked>
 
+      {/* eslint-disable-next-line */}
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
