@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { isFuture, isPast, isToday } from "date-fns";
-import supabase from "../services/supabase";
+// import supabase from "../services/supabase";
+import { supabase } from "../services/supabase";
 import Button from "../ui/Button";
 import { subtractDates } from "../utils/helpers";
 
@@ -100,6 +101,7 @@ async function createBookings() {
   if (error) console.log(error.message);
 }
 
+//eslint-disable-next-line
 function Uploader() {
   const [isLoading, setIsLoading] = useState(false);
 

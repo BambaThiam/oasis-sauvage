@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createEditCabin } from '../../services/apiCabins';
 import { toast } from "react-hot-toast";
 
+
 const useCreateCabin = () => {
 
     const queryClient = useQueryClient(); //permet d'acceder au client (pour la mise a jour du cache par ex.)
@@ -20,5 +21,6 @@ const useCreateCabin = () => {
       });
   return {createCabin, isCreating}
 }
+
 
 export default useCreateCabin

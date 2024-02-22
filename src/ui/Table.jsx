@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { createContext } from "react";
 import styled from "styled-components";
 
 const StyledTable = styled.div`
@@ -36,6 +38,7 @@ const StyledRow = styled(CommonRow)`
   }
 `;
 
+//eslint-disable-next-line
 const StyledBody = styled.section`
   margin: 0.4rem 0;
 `;
@@ -52,9 +55,69 @@ const Footer = styled.footer`
   }
 `;
 
+//eslint-disable-next-line
 const Empty = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
   text-align: center;
   margin: 2.4rem;
 `;
+
+const TableContext = createContext();
+
+//eslint-disable-next-line
+const Table = ({ columns, children }) => {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">
+        {children}
+      </StyledTable>
+    </TableContext.Provider>
+  ); 
+}
+//eslint-disable-next-line
+const Header = ({ children }) => {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledHeader role="row" columns={columns} as="header">
+      {children}
+    </StyledHeader>
+  )
+}
+
+//eslint-disable-next-line
+const Row = ({ children }) => {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledRow role="row" columns={columns} >
+      {children}
+    </StyledRow>
+  )
+}
+
+//eslint-disable-next-line
+const Body = ({ data, render }) => {
+
+  //eslint-disable-next-line
+  if (!data.length) {
+    return <Empty>No data to show at the moment</Empty>
+  }
+ 
+  return (
+    <StyledBody>
+       {/* eslint-disable-next-line */}
+      {data.map((render))}
+    </StyledBody>
+  )
+  
+}
+
+
+
+
+Table.Header = Header
+Table.Row = Row
+Table.Body = Body
+Table.Footer = Footer
+
+export default Table
