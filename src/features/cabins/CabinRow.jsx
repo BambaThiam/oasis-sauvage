@@ -8,6 +8,7 @@ import useCreateCabin from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 
 
@@ -53,6 +54,7 @@ const Discount = styled.div`
 //eslint-disable-next-line
 function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
+  //eslint-disable-next-line
   const {isCreating, createCabin} = useCreateCabin();
 
   const {
@@ -82,7 +84,7 @@ function CabinRow({ cabin }) {
       <div>Fits up to {maxCapacity} guests</div>
       <Price>{formatCurrency(regularPrice)}</Price>
       {discount ? <Discount>{formatCurrency(discount)}</Discount> : <span>&mdash;</span>}
-      <div>
+      {/* <div>
         <button onClick={handleDuplicate} disabled={isCreating} ><HiSquare2Stack /></button>
         <Modal>
 
@@ -103,6 +105,39 @@ function CabinRow({ cabin }) {
           </Modal.Window>
         </Modal>
         
+      </div> */}
+       <div>
+        <Modal>
+          <Menus.Menu>
+            <Menus.Toggle id={cabinID} />
+
+            <Menus.List id={cabinID}>
+              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
+                Duplicate
+              </Menus.Button>
+
+              <Modal.Open opens="edit">
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              </Modal.Open>
+
+              <Modal.Open opens="delete">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.Open>
+            </Menus.List>
+
+            <Modal.Window name="edit">
+              <CreateCabinForm cabinToEdit={cabin} />
+            </Modal.Window>
+
+            <Modal.Window name="delete">
+              <ConfirmDelete
+                resourceName="cabins"
+                disabled={isDeleting}
+                onConfirm={() => deleteCabin(cabinID)}
+              />
+            </Modal.Window>
+          </Menus.Menu>
+        </Modal>
       </div>
     </Table.Row>
     </>
