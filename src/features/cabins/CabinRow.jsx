@@ -59,7 +59,7 @@ function CabinRow({ cabin }) {
 
   const {
     //eslint-disable-next-line
-    id: cabinID, name,image,maxCapacity,regularPrice,discount, description,
+    id: cabinId, name,image,maxCapacity,regularPrice,discount, description,
   } = cabin;
 
 
@@ -109,9 +109,9 @@ function CabinRow({ cabin }) {
        <div>
         <Modal>
           <Menus.Menu>
-            <Menus.Toggle id={cabinID} />
+            <Menus.Toggle id={cabinId} />
 
-            <Menus.List id={cabinID}>
+            <Menus.List id={cabinId}>
               <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
                 Duplicate
               </Menus.Button>
@@ -133,7 +133,7 @@ function CabinRow({ cabin }) {
               <ConfirmDelete
                 resourceName="cabins"
                 disabled={isDeleting}
-                onConfirm={() => deleteCabin(cabinID)}
+                onConfirm={() => deleteCabin(cabinId)}
               />
             </Modal.Window>
           </Menus.Menu>
