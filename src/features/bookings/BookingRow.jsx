@@ -40,12 +40,14 @@ function BookingRow({
   booking: {
     //eslint-disable-next-line
     id: bookingId, created_at, startDate, endDate, numNights, numGuests, totalPrice, status,
-    //eslint-disable-next-line
     guests: { fullName: guestName, email },
-    //eslint-disable-next-line
     cabins: { name: cabinName },
   },
 }) {
+  const navigate = useNavigate();
+  const { checkout, isCheckingOut } = useCheckout();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
+
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
