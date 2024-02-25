@@ -9,6 +9,7 @@ import ButtonText from "../../ui/ButtonText";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 
+//eslint-disable-next-line
 const Box = styled.div`
   /* Box */
   background-color: var(--color-grey-0);
@@ -23,12 +24,8 @@ function CheckinBooking() {
   const booking = {};
 
   const {
-    id: bookingId,
-    guests,
-    totalPrice,
-    numGuests,
-    hasBreakfast,
-    numNights,
+    //eslint-disable-next-line
+    id: bookingId,guests, totalPrice, numGuests, hasBreakfast, numNights,
   } = booking;
 
   function handleCheckin() {}

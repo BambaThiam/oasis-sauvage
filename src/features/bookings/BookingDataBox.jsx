@@ -102,20 +102,14 @@ const Footer = styled.footer`
 `;
 
 // A purely presentational component
+// eslint-disable-next-line
 function BookingDataBox({ booking }) {
   const {
-    created_at,
-    startDate,
-    endDate,
-    numNights,
-    numGuests,
-    cabinPrice,
-    extrasPrice,
-    totalPrice,
-    hasBreakfast,
-    observations,
-    isPaid,
+    //eslint-disable-next-line
+    created_at, startDate, endDate, numNights, numGuests, cabinPrice, extrasPrice, totalPrice, hasBreakfast, observations, isPaid,
+    //eslint-disable-next-line
     guests: { fullName: guestName, email, country, countryFlag, nationalID },
+    //eslint-disable-next-line
     cabins: { name: cabinName },
   } = booking;
 
